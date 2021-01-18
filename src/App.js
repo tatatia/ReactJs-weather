@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Info from "./components/info";
+import Form from "./components/form";
+import Weather from './components/weather';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const API_KEY = "6b02c545271af73892d7bf7af1391535"
+
+export default class App extends Component {
+
+  state = {
+    temp: undefined,
+    city: undefined,
+    country: undefined,
+    pressure: undefined,
+    sunset: undefined,
+    error: undefined
+  }
+  gettingWeather = async (e) => {
+    e.preventDefault();
+    var city = e.target.elements.city.value;
+
+    if (city) {
+      const api_url = await
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+      const data = await api_url.json();
+
+      var sunset = data.sys.sunset;
+      var date = new Date();
+      date.setTime(sunset);
+      var sunset_date = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+      this.setState({
+        temp: data.main.temp,
+        city: data.name,
+        country: data.sys.country,
+        pressure: data.main.pressure,
+        sunset: sunset_date,
+        error: ""
+      });
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Info />
+        <Form weatherMethod={this.gettingWeather} />
+        <Weather
+          temp={this.state.temp}
+          city={this.state.city}
+          country={this.state.country}
+          pressure={this.state.pressure}
+          sunset={this.state.sunset}
+          error={this.state.error}
+        />
+      </div>
+    )
+  }
 }
 
-export default App;
+
