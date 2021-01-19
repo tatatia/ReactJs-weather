@@ -3,7 +3,7 @@ import Info from "./components/info";
 import Form from "./components/form";
 import Weather from './components/weather';
 
-const API_KEY = "6b02c545271af73892d7bf7af1391535"
+const API_KEY = "6b02c545271af73892d7bf7af1391535";
 
 export default class App extends Component {
 
@@ -23,6 +23,7 @@ export default class App extends Component {
       const api_url = await
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
       const data = await api_url.json();
+      //console.log(data)
 
       var sunset = data.sys.sunset;
       var date = new Date();
