@@ -1,20 +1,17 @@
 import React, { Component } from 'react'
 
-
-export default class Weather extends Component {
-    render() {
-        return (
-            <div>
-                { this.props.city &&
-                    <div key={this.props.city}>
-                        <p>Місцезнаходження: {this.props.city}, {this.props.country}</p>
-                        <p>Температура: {this.props.temp}</p>
-                        <p>Тиск: {this.props.pressure}</p>
-                        <p>Захід сонця: {this.props.sunset}</p>
-                    </div>
-                }
-
+const Weather = props => (
+    <div>
+        { props.city &&
+            <div key={props.city}>
+                <p>Місцезнаходження: {props.city}, {props.country}</p>
+                <p>Температура: {props.temp}</p>
+                <p>Тиск: {props.pressure}</p>
+                <p>Захід сонця: {props.sunset}</p>
             </div>
-        )
-    }
-}
+        }
+        <p>{props.error}</p>
+    </div>
+);
+
+export default Weather
