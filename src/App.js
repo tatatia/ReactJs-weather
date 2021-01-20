@@ -23,7 +23,9 @@ export default class App extends Component {
       const api_url = await
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
       const data = await api_url.json();
-
+      if (!data.sys) {
+        return
+      }
       var sunset = data.sys.sunset;
       var date = new Date();
       date.setTime(sunset);
@@ -55,10 +57,10 @@ export default class App extends Component {
         <div className="main">
           <div className="container">
             <div className="row">
-              <div className="col-xs-5">
+              <div className="col-sm-5 info">
                 <Info />
               </div>
-              <div className="col-xs-7">
+              <div className="col-sm-7 form">
                 <Form weatherMethod={this.gettingWeather} />
                 <Weather
                   temp={this.state.temp}
